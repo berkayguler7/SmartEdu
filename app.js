@@ -21,48 +21,6 @@ app.use(
 );
 app.use('/', pageRoute);
 
-// app.get('/', (req, res) => {
-//     res.status(200).render('index', {
-//         page_name: 'index'
-//     });
-// })
-
-// app.get('/about', (req, res) => {
-//     res.status(200).render('about', {
-//         page_name: 'about'
-//     });
-// })
-
-// app.get('/courses', (req, res) => {
-//     res.status(200).render('courses', {
-//         page_name: 'courses'
-//     });
-// })
-
-// app.get('/dashboard', (req, res) => {
-//     res.status(200).render('dashboard', {
-//         page_name: 'dashboard'
-//     });
-// })
-
-// app.get('/contact', (req, res) => {
-//     res.status(200).render('contact', {
-//         page_name: 'contact'
-//     });
-// })
-
-// app.get('/login', (req, res) => {
-//     res.status(200).render('login', {
-//         page_name: 'login'
-//     });
-// })
-
-// app.get('/signup', (req, res) => {
-//     res.status(200).render('register', {
-//         page_name: 'signup'
-//     });
-// })
-
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
