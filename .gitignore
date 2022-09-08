@@ -144,5 +144,6 @@ dist
 # Temporary folders
 tmp/
 temp/
+.prettierrc
 
 # End of https://www.toptal.com/developers/gitignore/api/node

@@ -3,6 +3,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const pageRoute = require('./routes/pageRoute');
+const courseRoute = require('./routes/courseRoute');
 const ejs = require('ejs');
 
 const app = express();
@@ -20,17 +21,19 @@ app.use(
     })
 );
 app.use('/', pageRoute);
+app.use('/courses', courseRoute);
 
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => {
-    console.log('DBCONN!');
-    app.listen(process.env.PORT, () => {
-        console.log(`Server is live on port ${process.env.PORT}`);
+mongoose
+    .connect(process.env.MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        console.log('DB CONNECTED!');
+        app.listen(process.env.PORT, () => {
+            console.log(`Server is live on port ${process.env.PORT}`);
+        });
+    })
+    .catch((err) => {
+        console.log(err);
     });
-})
-.catch((err) => {
-    console.log(err);
-});
