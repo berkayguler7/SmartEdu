@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const pageRoute = require('./routes/pageRoute');
 const courseRoute = require('./routes/courseRoute');
+const categoryRoute = require('./routes/categoryRoute');
 const ejs = require('ejs');
 
 const app = express();
@@ -20,8 +21,11 @@ app.use(
         methods: ['POST', 'GET'],
     })
 );
+
+//ROUTES
 app.use('/', pageRoute);
 app.use('/courses', courseRoute);
+app.use('/categories', categoryRoute);
 
 mongoose
     .connect(process.env.MONGO_URI, {
