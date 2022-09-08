@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const mongoose = require('mongoose');
+const session = require('express-session');
 const methodOverride = require('method-override');
 
 const pageRoute = require('./routes/pageRoute');
@@ -15,6 +16,9 @@ const app = express();
 //TEMPLATE ENGINE
 app.set('view engine', 'ejs');
 
+//GLOBAL VARIABLES
+global.userIN = null;
+
 //MIDDLEWARES
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
@@ -24,12 +28,23 @@ app.use(
         methods: ['POST', 'GET'],
     })
 );
+app.use(session({
+        secret: process.env.SECRET,
+        resave: false,
+        saveUninitialized: true,
+}));
+app.use('*', (req, res, next) => {
+    userIN = req.session.userID;
+    console.log(userIN);
+    next();
+});
 
 //ROUTES
 app.use('/', pageRoute);
 app.use('/courses', courseRoute);
 app.use('/categories', categoryRoute);
 app.use('/users', userRoute);
+
 
 mongoose
     .connect(process.env.MONGO_URI, {

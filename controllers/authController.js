@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const { CpsContext } = require('twilio/lib/rest/preview/trusted_comms/cps');
 
 exports.createUser = async (req, res) => {
     try {
@@ -26,11 +27,13 @@ exports.loginUser = async (req, res) => {
         if (user) {
             bcrypt.compare(password, user.password, (err, same) => {
                 if (same) {
-                    res.status(200).send(user);
+                    //res.status(200).send(user);
+                    console.log('logged in\n' + user);
+                    req.session.userID = user._id;
+                    res.redirect('/');
                 }
             });
         }
-
     } catch (error) {
         res.status(400).json({
             status: 'fail',
