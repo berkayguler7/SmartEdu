@@ -2,6 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const methodOverride = require('method-override');
 
 const pageRoute = require('./routes/pageRoute');
@@ -32,14 +33,15 @@ app.use(session({
         secret: process.env.SECRET,
         resave: false,
         saveUninitialized: true,
+        store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
 }));
+
+//ROUTES
 app.use('*', (req, res, next) => {
     userIN = req.session.userID;
     console.log(userIN);
     next();
 });
-
-//ROUTES
 app.use('/', pageRoute);
 app.use('/courses', courseRoute);
 app.use('/categories', categoryRoute);
@@ -52,7 +54,7 @@ mongoose
         useUnifiedTopology: true,
     })
     .then(() => {
-        console.log('DB CONNECTED!');
+        console.log('DB Connected!');
         app.listen(process.env.PORT, () => {
             console.log(`Server is live on port ${process.env.PORT}`);
         });
