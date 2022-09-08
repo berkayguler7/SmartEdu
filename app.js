@@ -2,9 +2,12 @@ const express = require('express');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+
 const pageRoute = require('./routes/pageRoute');
 const courseRoute = require('./routes/courseRoute');
 const categoryRoute = require('./routes/categoryRoute');
+const userRoute = require('./routes/userRoute');
+
 const ejs = require('ejs');
 
 const app = express();
@@ -26,6 +29,7 @@ app.use(
 app.use('/', pageRoute);
 app.use('/courses', courseRoute);
 app.use('/categories', categoryRoute);
+app.use('/users', userRoute);
 
 mongoose
     .connect(process.env.MONGO_URI, {
