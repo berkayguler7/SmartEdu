@@ -1,6 +1,5 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const { CpsContext } = require('twilio/lib/rest/preview/trusted_comms/cps');
 
 exports.createUser = async (req, res) => {
     try {
@@ -47,3 +46,11 @@ exports.logoutUser = (req, res) => {
         res.redirect('/');
     });
 };
+
+exports.getDashboardPage = async (req, res) => {
+    const user = await User.findOne({_id:req.session.userID})
+    res.status(200).render('dashboard', {
+      page_name: 'dashboard',
+      user
+    });
+  }; 
