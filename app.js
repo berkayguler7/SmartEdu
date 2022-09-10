@@ -40,6 +40,7 @@ app.use(
 
 // Logger
 app.use((req, res, next) => {
+    userIN = req.session.userID;
     console.table({
         request: {
             METHOD: req.method,
