@@ -29,24 +29,35 @@ app.use(
         methods: ['POST', 'GET'],
     })
 );
-app.use(session({
+app.use(
+    session({
         secret: process.env.SECRET,
         resave: false,
         saveUninitialized: true,
         store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
-}));
+    })
+);
 
-//ROUTES
-app.use('*', (req, res, next) => {
-    userIN = req.session.userID;
-    console.log(userIN);
+// Logger
+app.use((req, res, next) => {
+    console.table({
+        request: {
+            METHOD: req.method,
+            URL: req.url,
+            IP: req.ip,
+            USER_ID: req.session.userID,
+            SESSION_ID: req.sessionID,
+            ROLE: req.session.userRole,
+        },
+    });
     next();
 });
+
+//ROUTES
 app.use('/', pageRoute);
 app.use('/courses', courseRoute);
 app.use('/categories', categoryRoute);
 app.use('/users', userRoute);
-
 
 mongoose
     .connect(process.env.MONGO_URI, {

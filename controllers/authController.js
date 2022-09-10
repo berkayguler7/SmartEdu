@@ -26,6 +26,7 @@ exports.loginUser = async (req, res) => {
                     //res.status(200).send(user);
                     console.log('logged in\n' + user);
                     req.session.userID = user._id;
+                    req.session.userRole = user.role;
                     res.redirect('/');
                 }
             });
