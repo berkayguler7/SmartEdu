@@ -6,9 +6,15 @@ const router = express.Router();
 
 router.route('/')
     .get(courseController.getAllCourses)
-    router.route('/').post(checkRole(["teacher", "admin"]), courseController.createCourse);
+    .post(checkRole(["teacher", "admin"]), courseController.createCourse);
 
 router.route('/:slug')
     .get(courseController.getCourse)
+
+router.route('/enroll')
+    .post(courseController.enrollCourse);
+
+router.route('/release')
+    .post(courseController.releaseCourse);
 
 module.exports = router;

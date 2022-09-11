@@ -27,32 +27,51 @@
 						<div class="author-bio">
 							<h3 class="author_name"><a href="#"><%= user.name %></a></h3>
 						</div>
-						<div class="author-desc">
-							<img src="/images/author.jpg" alt="about author">
-						</div>
 					</div>
 					
                 </div><!-- end col -->
             </div><!-- end row -->
-
+			<h2 class="text-center"><b>Courses</b></h2>
 			<div class="row mt-5"> 
-				
-				<% for (let i=0; i < courses.length; i++) { %>
-					<div class="col-lg-6 col-md-6 col-12">
-						<div class="course-item mb-5">
-							<div class="image-blog">
-								<img src="/images/blog_1.jpg" alt="" class="img-fluid">
-							</div>
-							<div class="course-br">
-								<div class="course-title">
-									<h2><a href="/courses/<%= courses[i].slug %>" title=""><%= courses[i].name %></a></h2>
+				<% if(user.role==='teacher' ) { %>
+					<% for (let i=0; i < courses.length; i++) { %>
+						<div class="col-lg-6 col-md-6 col-12">
+							<div class="course-item mb-5">
+								<div class="image-blog">
+									<img src="/images/blog_1.jpg" alt="" class="img-fluid">
 								</div>
-								<div class="course-desc">
-									<p><%= courses[i].description %></p>
+								<div class="course-br">
+									<div class="course-title">
+										<h2><a href="/courses/<%= courses[i].slug %>" title=""><%= courses[i].name %></a></h2>
+									</div>
+									<div class="course-desc">
+										<p><%= courses[i].description %></p>
+									</div>
 								</div>
 							</div>
-						</div>
-					</div><!-- end col -->
+						</div><!-- end col -->
+					<% } %>
+				<% } %>
+
+				<% if(user.role==='student' ) { %>
+					<% for (let i=0; i < user.courses.length; i++) { %>
+						<div class="col-lg-6 col-md-6 col-12">
+							<div class="course-item mb-5">
+								<div class="course-br">
+									<div class="course-title">
+										<h2><a href="/courses/<%= user.courses[i].slug %>" title=""><%= user.courses[i].name %></a></h2>
+									</div>
+									<div class="course-desc">
+										<p><%= user.courses[i].description %></p>
+										<form method="POST" action="/courses/release">
+											<input type="hidden" name="course_id" value="<%= user.courses[i]._id %>">
+											<button class="btn btn-lg btn-danger text-white"><span>RELEASE</span></button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div><!-- end col -->
+					<% } %>
 				<% } %>
             </div><!-- end row -->
         </div><!-- end container -->
