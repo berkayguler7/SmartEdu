@@ -19,7 +19,7 @@
 							<img src="images/blog_single.jpg" alt="" class="img-fluid">
 						</div>
 						<div class="post-content">
-							<% if (user && !user.courses.includes(course._id) ) { %> 
+							<% if (user && !user.courses.includes(course._id) && user.role === 'student' ) { %> 
 								<% console.log(user); console.log(user.courses) %> 
 								<div class="post-date">
 									<form method="POST" action="/courses/enroll">
@@ -61,16 +61,7 @@
 					
                 </div><!-- end col -->
 				<div class="col-lg-3 col-12 right-single">
-					<div class="widget-search">
-						<div class="site-search-area">
-							<form method="get" id="site-searchform" action="#">
-								<div>
-									<input class="input-text form-control" name="search-k" id="search-k" placeholder="Search keywords..." type="text">
-									<input id="searchsubmit" value="Search" type="submit">
-								</div>
-							</form>
-						</div>
-					</div>
+					<%- include('./partials/_search'); %>
 					<div class="widget-categories">
 						<h3 class="widget-title">Categories</h3>
 						<ul>
