@@ -3,7 +3,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const methodOverride = require('method-override');
+const flash = require('connect-flash');
 
 const pageRoute = require('./routes/pageRoute');
 const courseRoute = require('./routes/courseRoute');
@@ -25,11 +25,6 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
-    methodOverride('_method', {
-        methods: ['POST', 'GET'],
-    })
-);
-app.use(
     session({
         secret: process.env.SECRET,
         resave: false,
@@ -37,6 +32,11 @@ app.use(
         store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
     })
 );
+app.use(flash());
+app.use((req, res, next) => {
+    res.locals.flashMessages = req.flash();
+    next();
+})
 
 // Logger
 app.use((req, res, next) => {
