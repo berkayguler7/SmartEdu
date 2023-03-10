@@ -107,3 +107,26 @@ exports.releaseCourse = async (req, res) => {
         });
     }
 };
+
+exports.deleteCourse = async (req, res) => {
+    try {
+        const course = await Course.findOneAndRemove({ slug: req.params.slug });
+        if(!course) return res.status(404).json({ status: 'fail', message: 'Course not found.' });
+        if(req.session.userID !== course.creator.toString()) return res.status(401).json({ status: 'fail', message: 'Unauthorized.' });
+        req.flash('success', `${course.name} deleted successfully.`);
+
+        // Very dubious way of removing course from users' courses array
+        const users = await User.find();
+        users.forEach(async (user) => {
+            await user.courses.pull({ _id: course._id });
+            await user.save();
+        });
+
+        res.status(200).redirect('/users/dashboard');
+    } catch (error) {
+        res.status(400).json({
+            status: 'fail',
+            error,
+        });
+    }
+};

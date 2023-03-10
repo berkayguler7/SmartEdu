@@ -17,4 +17,7 @@ router.route('/enroll')
 router.route('/release')
     .post(courseController.releaseCourse);
 
+router.route('/:slug')
+    .delete(courseController.deleteCourse)
+
 module.exports = router;
