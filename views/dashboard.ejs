@@ -137,10 +137,6 @@
 																	<select required class="form-control" name="category" id="<%= courses[i].name %>_comboBox">
 																		<% for (let j=0; j< categories.length; j++) { %>
 																			<% if(categories[j]._id.toString() === courses[i].category.toString()) { %>
-																				<% console.log(`Selecting ${categories[j].name} for ${courses[i].name}`)
-																					console.log(categories[j]._id);
-																					console.log(courses[i].category);
-																				%>
 																				<option id="<%= categories[j]._id %>" value="<%= categories[j]._id %>" selected="selected">
 																					<%= categories[j].name %>
 																				</option>
