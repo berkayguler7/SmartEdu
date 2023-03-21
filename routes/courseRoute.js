@@ -18,6 +18,7 @@ router.route('/release')
     .post(courseController.releaseCourse);
 
 router.route('/:slug')
-    .delete(courseController.deleteCourse)
+    .post(courseController.updateCourse)
+    .delete(courseController.deleteCourse);
 
 module.exports = router;
